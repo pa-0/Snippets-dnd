@@ -51,7 +51,6 @@
             startupCheckbox.TabIndex = 0;
             startupCheckbox.Text = "Run on Startup";
             startupCheckbox.UseVisualStyleBackColor = false;
-            startupCheckbox.CheckedChanged += startupCheckbox_CheckedChanged;
             // 
             // title
             // 
@@ -130,6 +129,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "PrimaryForm";
             Text = "Snippet Settings";
+            Load += PrimaryForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
