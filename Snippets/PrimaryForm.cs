@@ -7,10 +7,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using UIAutomationClient;
 
 namespace Snippets
 {
@@ -42,7 +44,7 @@ namespace Snippets
         /// </summary>
         public void HotkeyPressed()
         {
-
+            Point caret = CaretPosition.TryGetCaretPosition();
         }
         private void PrimaryForm_Load(object sender, EventArgs e)
         {
