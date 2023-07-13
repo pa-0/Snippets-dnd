@@ -43,9 +43,34 @@ namespace Snippets
         {
             return (a * (1.0f - t)) + (b * t);
         }
-
         /// <summary>
-        /// Interpolate between two doubles linearly.
+        /// Interpolate between two colors linearly.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Color Interpolate(Color a, Color b, float t)
+        {
+            return Color.FromArgb(
+                Interpolate(a.R, b.R, t),
+                Interpolate(a.G, b.G, t),
+                Interpolate(a.B, b.B, t),
+                Interpolate(a.A, b.A, t));
+        }
+        /// <summary>
+        /// Interpolate between two bytes linearly without exceeding bounds.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static byte Interpolate(byte a, byte b, float t)
+        {
+            return (byte)Math.Round(Interpolate((float)a, (float)b, t));
+        }
+        /// <summary>
+        /// Interpolate between two bytes linearly.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>

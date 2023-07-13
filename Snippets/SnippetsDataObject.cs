@@ -275,6 +275,41 @@ namespace Snippets
             return $"Snippet Object ({type}, format '{format}')\n\t{data}";
         }
 
+        public bool IsPreviewString
+        {
+            get {
+                switch(type)
+                {
+                    case FormatType.Text: return true;
+                    case FormatType.FileDropList: return true;
+                    case FormatType.Audio: return true;
+                    case FormatType.Image: return false;
+                    default: return false;
+                }
+            }
+        }
+        public string GetPreviewString()
+        {
+            if (data == null)
+                return "Empty";
+
+            switch (type)
+            {
+                case FormatType.Audio:
+                    Stream audioStream = (Stream)data;
+                    return "Audio - " + ((double)(audioStream.Length / 1024) / 1024d) + "MB";
+                case FormatType.FileDropList:
+                    string[] files = (string[])data;
+                    IEnumerable<string> modifiedFiles = files.Select(f => "\t- " + f);
+                    return "File Collection:\n" + string.Join("\n", modifiedFiles);
+                case FormatType.Text:
+                    return (string)data;
+                case FormatType.Image:
+                default:
+                    throw new Exception("No text preview available. Consider checking IsPreviewString beforehand.");
+            }
+        }
+
 
         /// <summary>
         /// Pulls a <see cref="SnippetsDataObject"/> from the user's clipboard.

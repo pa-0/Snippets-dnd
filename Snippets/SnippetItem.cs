@@ -10,37 +10,116 @@ using System.Windows.Forms;
 
 namespace Snippets
 {
-    public partial class SnippetItem : UserControl
+    internal partial class SnippetItem : UserControl
     {
-        public static readonly Color BACK_COLOR_DEFAULT = Color.FromArgb(39, 44, 54);
-        public static readonly Color BACK_COLOR_HOVER = Color.FromArgb(33, 38, 48);
+        internal const float LERP_AMOUNT = 35f;
+        internal static readonly Color BACK_COLOR_DEFAULT = Color.FromArgb(39, 44, 54);
+        internal static readonly Color BACK_COLOR_HOVER = Color.FromArgb(33, 38, 48);
 
-        public bool hovered = false;
-        public Color goalColor = BACK_COLOR_DEFAULT;
-        public Color backColor = BACK_COLOR_DEFAULT;
+        internal bool hovered = false;
+        internal Color goalColor = BACK_COLOR_DEFAULT;
+        internal Color backColor = BACK_COLOR_DEFAULT;
 
-        public string snippetTitle;
-        public string snippetPreview;
+        private string _snippetTitle;
+        private SnippetsDataObject _snippetPreview;
 
-        public SnippetItem(string snippetTitle, string snippetPreview)
+        private bool? isPreviewLabel = null;
+        private void SetPreviewToLabel()
+        {
+            if (isPreviewLabel != null && isPreviewLabel == true)
+                return;
+            isPreviewLabel = true;
+
+            pictureBox.Hide();
+            labelDescription.Show();
+
+            Height -= labelDescription.Bottom - 10; // 10 px of padding from the bottom
+        }
+        private void SetPreviewToImage(int width, int height)
+        {
+            if (isPreviewLabel != null && isPreviewLabel == false)
+                return;
+            isPreviewLabel = false;
+
+            pictureBox.Show();
+            labelDescription.Hide();
+
+            float whRatio = (float)width / height;
+            float newHeight = pictureBox.Width / whRatio;
+            pictureBox.Height = (int)Math.Round(newHeight);
+
+            Height -= pictureBox.Bottom - 10; // 10 px of padding from the bottom
+        }
+
+        internal string SnippetTitle
+        {
+            get => _snippetTitle;
+            set
+            {
+                _snippetTitle = value;
+                labelKey.Text = value;
+            }
+        }
+        internal SnippetsDataObject SnippetPreview
+        {
+            get => _snippetPreview;
+            set
+            {
+                _snippetPreview = value;
+
+                if(value.data == null)
+                    throw new NullReferenceException("No valid data in this SnippetsDataObject.");
+
+                if (value.IsPreviewString)
+                {
+                    SetPreviewToLabel();
+                    labelDescription.Text = value.GetPreviewString();
+                }
+                else if (value.type == SnippetsDataObject.FormatType.Image)
+                {
+                    Image image = (Image)value.data;
+                    SetPreviewToImage(image.Width, image.Height);
+                    pictureBox.Image = image;
+                } else
+                {
+                    throw new NullReferenceException("Trying to display a SnippetsDataObject with no data in it.");
+                }
+            }
+        }
+
+        #pragma warning disable CS8618
+        internal SnippetItem(string snippetTitle, SnippetsDataObject snippetPreview)
+        #pragma warning restore CS8618
         {
             InitializeComponent();
-            this.snippetTitle = snippetTitle;
-            this.snippetPreview = snippetPreview;
-        }
 
+            // fields
+            this.SnippetTitle = snippetTitle;
+            this.SnippetPreview = snippetPreview;
+
+            // event handlers
+            this.MouseEnter += HoverStart;
+            this.MouseLeave += HoverEnd;
+        }
         private void SnippetItem_Load(object sender, EventArgs e)
         {
-
+            labelKey.Text = _snippetTitle;
         }
 
-        private void HoverStart(object sender, EventArgs e)
+        internal void AnimationTick(float deltaTime)
+        {
+            backColor = Visuals.Interpolate(backColor, goalColor, deltaTime * LERP_AMOUNT);
+            BackColor = backColor;
+        }
+        internal void HoverStart(object? sender, EventArgs e)
         {
             hovered = true;
+            goalColor = BACK_COLOR_HOVER;
         }
-        private void HoverEnd(object sender, EventArgs e)
+        internal void HoverEnd(object? sender, EventArgs e)
         {
             hovered = false;
+            goalColor = BACK_COLOR_DEFAULT;
         }
     }
 }
