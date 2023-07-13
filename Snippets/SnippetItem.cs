@@ -32,8 +32,6 @@ namespace Snippets
 
             pictureBox.Hide();
             labelDescription.Show();
-
-            Height -= labelDescription.Bottom - 10; // 10 px of padding from the bottom
         }
         private void SetPreviewToImage(int width, int height)
         {
@@ -44,11 +42,13 @@ namespace Snippets
             pictureBox.Show();
             labelDescription.Hide();
 
+            int maxWidth = Width - 20;
+            width = Math.Min(width, maxWidth);
+
             float whRatio = (float)width / height;
             float newHeight = pictureBox.Width / whRatio;
             pictureBox.Height = (int)Math.Round(newHeight);
-
-            Height -= pictureBox.Bottom - 10; // 10 px of padding from the bottom
+            pictureBox.Width = width;
         }
 
         internal string SnippetTitle
@@ -67,29 +67,32 @@ namespace Snippets
             {
                 _snippetPreview = value;
 
-                if(value.data == null)
+                if (value.data == null)
                     throw new NullReferenceException("No valid data in this SnippetsDataObject.");
 
                 if (value.IsPreviewString)
                 {
                     SetPreviewToLabel();
                     labelDescription.Text = value.GetPreviewString();
+                    Height = labelDescription.Bottom - 10;
                 }
                 else if (value.type == SnippetsDataObject.FormatType.Image)
                 {
                     Image image = (Image)value.data;
                     SetPreviewToImage(image.Width, image.Height);
                     pictureBox.Image = image;
-                } else
+                    Height -= pictureBox.Bottom - 10; // 10 px of padding from the bottom
+                }
+                else
                 {
                     throw new NullReferenceException("Trying to display a SnippetsDataObject with no data in it.");
                 }
             }
         }
 
-        #pragma warning disable CS8618
+#pragma warning disable CS8618
         internal SnippetItem(string snippetTitle, SnippetsDataObject snippetPreview)
-        #pragma warning restore CS8618
+#pragma warning restore CS8618
         {
             InitializeComponent();
 

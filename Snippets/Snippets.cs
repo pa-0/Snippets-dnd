@@ -14,7 +14,7 @@ namespace Snippets
     public class Snippets : IDisposable
     {
         public const string SNIPPETS_FOLDER = "snippets";
-        private Dictionary<string, SnippetsDataObject> snippets;
+        internal readonly Dictionary<string, SnippetsDataObject> snippets;
 
         public static string GetFilePath(string key)
         {
@@ -23,7 +23,7 @@ namespace Snippets
 
         internal Snippets()
         {
-            snippets = new Dictionary<string, SnippetsDataObject>(StringComparer.OrdinalIgnoreCase);
+            snippets = new Dictionary<string, SnippetsDataObject>();
         }
 
         /// <summary>

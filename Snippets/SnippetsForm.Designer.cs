@@ -29,28 +29,29 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SnippetsForm));
-            listBox1 = new ListBox();
+            snippetList = new ListBox();
             SuspendLayout();
             // 
-            // listBox1
+            // snippetList
             // 
-            listBox1.BackColor = Color.FromArgb(39, 44, 54);
-            listBox1.BorderStyle = BorderStyle.None;
-            listBox1.ForeColor = Color.White;
-            listBox1.FormattingEnabled = true;
-            listBox1.ItemHeight = 15;
-            listBox1.Location = new Point(2, 2);
-            listBox1.Name = "listBox1";
-            listBox1.Size = new Size(346, 480);
-            listBox1.TabIndex = 0;
+            snippetList.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            snippetList.BackColor = Color.FromArgb(15, 15, 19);
+            snippetList.BorderStyle = BorderStyle.None;
+            snippetList.ForeColor = Color.White;
+            snippetList.FormattingEnabled = true;
+            snippetList.ItemHeight = 15;
+            snippetList.Location = new Point(2, 2);
+            snippetList.Name = "snippetList";
+            snippetList.Size = new Size(400, 480);
+            snippetList.TabIndex = 0;
             // 
             // SnippetsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ControlDark;
-            ClientSize = new Size(350, 484);
-            Controls.Add(listBox1);
+            BackColor = Color.FromArgb(15, 15, 19);
+            ClientSize = new Size(404, 484);
+            Controls.Add(snippetList);
             DoubleBuffered = true;
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -62,6 +63,6 @@
 
         #endregion
 
-        private ListBox listBox1;
+        private ListBox snippetList;
     }
 }

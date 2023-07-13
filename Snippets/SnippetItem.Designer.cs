@@ -48,12 +48,13 @@
             // 
             // labelDescription
             // 
+            labelDescription.AutoSize = true;
             labelDescription.Font = new Font("Segoe UI Light", 10F, FontStyle.Regular, GraphicsUnit.Point);
             labelDescription.ForeColor = Color.White;
             labelDescription.ImageAlign = ContentAlignment.TopLeft;
             labelDescription.Location = new Point(8, 35);
             labelDescription.Name = "labelDescription";
-            labelDescription.Size = new Size(489, 30);
+            labelDescription.Size = new Size(241, 19);
             labelDescription.TabIndex = 0;
             labelDescription.Text = "Subtitle, note raw text and/or an image.";
             labelDescription.TextAlign = ContentAlignment.MiddleLeft;
@@ -80,6 +81,7 @@
             Load += SnippetItem_Load;
             ((System.ComponentModel.ISupportInitialize)pictureBox).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
