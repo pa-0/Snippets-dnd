@@ -50,12 +50,12 @@ namespace Snippets
             return false;
         }
 
-        static PrimaryForm form;
-        static HotkeyContract hotkey;
+        static PrimaryForm? form;
+        static HotkeyContract? hotkey;
         public static void RegisterHotkeys(IntPtr windowHandle)
         {
             hotkey = GlobalHotkeys.RegisterHotkey(windowHandle,
-                KeyModifiers.Windows | KeyModifiers.Alt,
+                KeyModifiers.Windows | KeyModifiers.Alt | KeyModifiers.NoRepeat,
                 Keys.V,
                 form,
                 (_form) =>

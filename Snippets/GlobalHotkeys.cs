@@ -12,14 +12,14 @@ namespace Snippets
     /// </summary>
     public static class GlobalHotkeys
     {
-        private static readonly Dictionary<int, Tuple<object, Action<object>>> hotkeys = new Dictionary<int, Tuple<object, Action<object>>>();
+        private static readonly Dictionary<int, Tuple<object?, Action<object?>>> hotkeys = new Dictionary<int, Tuple<object?, Action<object?>>>();
         private static int lastUsedID = 0;
         private const int WM_HOTKEY = 0x0312;
 
         /// <summary>
         /// Register a hotkey.
         /// </summary>
-        public static HotkeyContract RegisterHotkey(IntPtr windowHandle, KeyModifiers modifiers, Keys key, object passIn, Action<object> action)
+        public static HotkeyContract RegisterHotkey(IntPtr windowHandle, KeyModifiers modifiers, Keys key, object? passIn, Action<object?> action)
         {
             int id = lastUsedID++;
 
@@ -38,7 +38,7 @@ namespace Snippets
                 throw new Exception("Couldn't register hotkey. Win32 Error: " + hex);
             }
 
-            hotkeys[id] = new Tuple<object, Action<object>>(passIn, action);
+            hotkeys[id] = new Tuple<object?, Action<object?>>(passIn, action);
             return new HotkeyContract(id, windowHandle);
         }
         /// <summary>

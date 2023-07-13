@@ -50,6 +50,7 @@ namespace Snippets
             Debug.WriteLine("Registering hotkey...");
             Program.RegisterHotkeys(Handle);
 
+            // round the corners of some of the components
             Visuals.RoundRegion(this, 10);
             Visuals.RoundRegion(hideButton, 5);
             Visuals.RoundRegion(exitButton, 5);
